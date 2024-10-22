@@ -9,7 +9,7 @@
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.9.0"
-
+    kotlin("plugin.serialization") version "2.0.20"
     // Apply the application plugin to add support for building a CLI application in Java.
     application
 }
@@ -26,7 +26,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core:3.0.0")
     implementation("io.ktor:ktor-server-netty:3.0.0")
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0")
+    implementation("io.ktor:ktor-server-content-negotiation:3.0.0")
     implementation("io.ktor:ktor-client-core:3.0.0")
     implementation("io.ktor:ktor-server-auth:3.0.0")
 
@@ -34,7 +34,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:0.55.0")
     implementation("org.jetbrains.exposed:exposed-dao:0.55.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.55.0")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.55.0")
     implementation("com.h2database:h2:2.2.222") // In-memory H2 database for testing
+    implementation("org.postgresql:postgresql:42.7.4")
 
     // Testing dependencies
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
