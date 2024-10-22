@@ -7,6 +7,7 @@ import skoda_backend.models.User
 import skoda_backend.models.Users
 import java.time.Instant
 import java.time.LocalDateTime
+import org.mindrot.jbcrypt.BCrypt
 import java.time.ZoneId
 import java.util.*
 
@@ -25,7 +26,7 @@ class UserRepository {
             val id = Users.insertAndGetId {
                 it[id] = user.firstName + user.lastName
                 it[email] = user.email
-                it[passwordHash] = user.passwordHash
+                it[passwordHash] = BCrypt.hashpw(user.password, BCrypt.gensalt())
                 it[firstName] = user.firstName
                 it[lastName] = user.lastName
                 it[phoneNumber] = user.phoneNumber
@@ -45,7 +46,7 @@ class UserRepository {
                         User(
                                 userId = it[Users.id].value,
                                 email = it[Users.email],
-                                passwordHash = it[Users.passwordHash],
+                                password = it[Users.passwordHash],
                                 firstName = it[Users.firstName],
                                 lastName = it[Users.lastName],
                                 phoneNumber = it[Users.phoneNumber],
@@ -57,6 +58,21 @@ class UserRepository {
         }
     }
 
+    fun findUserByEmail(email: String): User? {
+        return transaction {
+            Users.selectAll().where { Users.email eq email }.map {
+                User(
+                        userId = it[Users.id].value,
+                        email = it[Users.email],
+                        password = it[Users.passwordHash],
+                        firstName = it[Users.firstName],
+                        lastName = it[Users.lastName],
+                        phoneNumber = it[Users.phoneNumber],
+                        address = it[Users.address]
+                )
+            }.singleOrNull()
+        }
+    }
     // Get all users
     fun getAllUsers(): List<User> {
         return transaction {
@@ -64,7 +80,7 @@ class UserRepository {
                 User(
                         userId = it[Users.id].value,
                         email = it[Users.email],
-                        passwordHash = it[Users.passwordHash],
+                        password = it[Users.passwordHash],
                         firstName = it[Users.firstName],
                         lastName = it[Users.lastName],
                         phoneNumber = it[Users.phoneNumber],
@@ -81,7 +97,7 @@ class UserRepository {
         return transaction {
             val updatedRowsCount = Users.update({ Users.id eq updatedUser.userId }) {
                 it[email] = updatedUser.email
-                it[passwordHash] = updatedUser.passwordHash
+                it[passwordHash] = updatedUser.password
                 it[firstName] = updatedUser.firstName
                 it[lastName] = updatedUser.lastName
                 it[phoneNumber] = updatedUser.phoneNumber

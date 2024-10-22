@@ -27,6 +27,8 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:3.0.0")
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0")
     implementation("io.ktor:ktor-server-content-negotiation:3.0.0")
+    implementation("io.ktor:ktor-server-auth:3.0.0")
+    implementation("io.ktor:ktor-server-auth-jwt:3.0.0")
     implementation("io.ktor:ktor-client-core:3.0.0")
     implementation("io.ktor:ktor-server-auth:3.0.0")
 
@@ -37,6 +39,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:0.55.0")
     implementation("com.h2database:h2:2.2.222") // In-memory H2 database for testing
     implementation("org.postgresql:postgresql:42.7.4")
+
+    implementation("org.mindrot:jbcrypt:0.4")
 
     // Testing dependencies
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
