@@ -22,7 +22,25 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation("com.google.guava:guava:32.1.1-jre")
-    implementation ("org.springframework.boot:spring-boot-starter-web")
+    // Ktor dependencies
+    implementation("io.ktor:ktor-server-core:3.0.0")
+    implementation("io.ktor:ktor-server-netty:3.0.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0")
+    implementation("io.ktor:ktor-client-core:3.0.0")
+    implementation("io.ktor:ktor-server-auth:3.0.0")
+
+    // Exposed for database access
+    implementation("org.jetbrains.exposed:exposed-core:0.55.0")
+    implementation("org.jetbrains.exposed:exposed-dao:0.55.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.55.0")
+    implementation("com.h2database:h2:2.2.222") // In-memory H2 database for testing
+
+    // Testing dependencies
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
+    testImplementation("io.mockk:mockk:1.13.4") // For mocking in tests
+    testImplementation("io.ktor:ktor-server-test-host:3.0.0") // Ktor test utilities
+
 
 }
 
@@ -45,5 +63,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("skoda_backend.AppKt")
+    mainClass.set("skoda_backend.ApplicationKt")
 }
