@@ -14,4 +14,8 @@ class UserService(private val userRepository: UserRepository) {
     fun deleteUser(id: String): Boolean = userRepository.deleteUser(id)
 
     fun getAllUsers(): List<User> = userRepository.getAllUsers()
+
+    fun getUserByEmail(email: String): User? {
+        return userRepository.findUserByEmail(email)
+    }
 }
