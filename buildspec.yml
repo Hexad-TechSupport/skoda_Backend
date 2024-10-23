@@ -26,8 +26,9 @@ phases:
 
 artifacts:
   files:
-    - app/build/libs/app.jar'
-  discard-paths: yes
+    - 'app/build/libs/app.jar'
+  base-directory: '.' 
+  discard-paths: no
 
 cache:
   paths:
