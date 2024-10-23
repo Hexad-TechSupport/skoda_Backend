@@ -19,13 +19,15 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo "Listing Build artifacts:"
+      - find . name "*.jar"
       - echo Uploading build artifacts to S3
       - aws s3 cp build/libs/*.jar s3://skodaappdevl/Skoda_BuildArtifacts/ --region eu-central-1  # Upload to S3 bucket
 
 artifacts:
   files:
-    - build/libs/*.jar
-  discard-paths: yes
+    - '**/*.jar'
+  discard-paths: no
 
 cache:
   paths:
