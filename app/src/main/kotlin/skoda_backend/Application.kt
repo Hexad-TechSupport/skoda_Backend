@@ -7,12 +7,15 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import skoda_backend.controllers.userRoutes
 import org.jetbrains.exposed.sql.Database
+import io.ktor.server.plugins.autohead.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import skoda_backend.utils.verifier
 import io.ktor.server.plugins.contentnegotiation.*
 import kotlinx.serialization.json.Json
 import skoda_backend.controllers.vehicleRoutes
+import io.ktor.server.plugins.forwardedheaders.*
+import io.ktor.server.plugins.cors.routing.*
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -25,6 +28,14 @@ fun Application.module() {
             driver = "org.postgresql.Driver",
             user = "postgres",
             password = "")
+
+    install(ForwardedHeaders)
+    install(AutoHeadResponse)
+    install(CORS) {
+        allowNonSimpleContentTypes = true
+        anyHost() // For development only. In production, use specific domains.
+    }
+
 
     install(Authentication) {
         jwt("auth-jwt") {
