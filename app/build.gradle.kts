@@ -32,6 +32,10 @@ dependencies {
     implementation("io.ktor:ktor-client-core:3.0.0")
     implementation("io.ktor:ktor-server-auth:3.0.0")
 
+    implementation("io.ktor:ktor-server-cors:3.0.0")
+    implementation("io.ktor:ktor-server-auto-head-response:3.0.0")
+    implementation("io.ktor:ktor-server-forwarded-header:3.0.0")
+
     // Exposed for database access
     implementation("org.jetbrains.exposed:exposed-core:0.55.0")
     implementation("org.jetbrains.exposed:exposed-dao:0.55.0")
