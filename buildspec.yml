@@ -3,9 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto20  # Since you're using Java 20
+      java: corretto20  # Using Java 20 as per your setup
     commands:
       - echo Installing dependencies
+      # Regenerate the Gradle wrapper if it doesn't exist
+      - if [ ! -f ./gradlew ]; then echo "Gradle wrapper missing, generating..."; ./gradlew wrapper; fi
       - ./gradlew --no-daemon clean build  # Runs Gradle build
   pre_build:
     commands:
@@ -20,6 +22,7 @@ phases:
       - echo Build completed on `date`
       - echo Uploading build artifacts to S3
       - aws s3 cp build/libs/*.jar s3://skodaappdevl/Skoda_BuildArtifacts/ --region eu-central-1  # Upload to S3 bucket
+
 artifacts:
   files:
     - build/libs/*.jar  # Collect the JAR file(s)
@@ -29,3 +32,4 @@ cache:
   paths:
     - ~/.gradle/wrapper/
     - ~/.gradle/caches/
+
