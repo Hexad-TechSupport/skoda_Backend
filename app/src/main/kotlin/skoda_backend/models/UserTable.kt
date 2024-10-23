@@ -12,7 +12,7 @@ import java.util.UUID
 import org.jetbrains.exposed.sql.javatime.timestamp
 
 object Users : IdTable<String>("Users") {
-    override val id = varchar("userId", 255).entityId() // This makes userId an EntityID<UUID>
+    override val id = varchar("userId", 255).entityId()
     val email = varchar("email", 255).uniqueIndex()
     val passwordHash = varchar("passwordHash", 255)
     val firstName = varchar("firstName", 255).nullable()
