@@ -1,3 +1,5 @@
+package skoda_backend.models
+
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.datetime
@@ -21,4 +23,5 @@ object Vehicles : IdTable<String>("Vehicles") {
     val lastServiceDate = long("lastServiceDate").nullable()
     val createdAt = long("createdAt")
     val updatedAt = long("updatedAt").nullable()
+    val lockStatus = varchar("lockstatus", 50).nullable()
 }
