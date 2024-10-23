@@ -6,9 +6,6 @@ phases:
       java: corretto20  # Using Java 20 as per your setup
     commands:
       - echo Installing dependencies
-      # Regenerate the Gradle wrapper if it doesn't exist
-      - if [ ! -f ./gradlew ]; then echo "Gradle wrapper missing, generating..."; ./gradlew wrapper; fi
-      - ./gradlew --no-daemon clean build  # Runs Gradle build
   pre_build:
     commands:
       - echo Running pre-build actions
