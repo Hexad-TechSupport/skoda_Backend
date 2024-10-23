@@ -1,18 +1,26 @@
-package skoda_backend.Utils
+package skoda_backend.utils
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import java.util.*
 
+private const val secret = "skoda-secret-key" // read from secrets
+private const val issuer = "skoda-issuer"
+private const val audience = "skoda-audience"
+private const val realm = "skoda-realm"
 // Utility function to validate email format
 fun isValidEmail(email: String): Boolean {
     return Regex("^[A-Za-z0-9+_.-]+@(.+)$").matches(email)
 }
 
-fun generateToken(userId: String?, secret: String): String {
-    val expiration = Date(System.currentTimeMillis() + 600_000) // Token valid for 10 minutes
+val verifier = JWT.require(Algorithm.HMAC256(secret))
+        .withAudience(audience)
+        .withIssuer(issuer)
+        .build()
+
+fun generateToken(userId: String): String {
     return JWT.create()
-            .withClaim("userId", userId?.toString())
-            .withExpiresAt(expiration)
+            .withAudience(audience)
+            .withIssuer(issuer)
+            .withClaim("userId", userId)
             .sign(Algorithm.HMAC256(secret))
 }
