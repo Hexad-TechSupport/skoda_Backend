@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Exit script on any error
-set -e
+set -ex
 
 # Logging start of the script
 echo "Starting the before install script..."
