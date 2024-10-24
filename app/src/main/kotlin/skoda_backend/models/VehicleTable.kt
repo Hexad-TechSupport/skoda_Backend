@@ -24,4 +24,5 @@ object Vehicles : IdTable<String>("Vehicles") {
     val createdAt = long("createdAt")
     val updatedAt = long("updatedAt").nullable()
     val lockStatus = varchar("lockstatus", 50).nullable()
+    var isEngineOn = bool("isEngineOn").nullable()
 }

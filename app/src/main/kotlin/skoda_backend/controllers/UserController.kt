@@ -30,7 +30,6 @@ fun Application.userRoutes() {
             post {
                 val user = call.receive<User>()
 
-
                 if (!isValidEmail(user.email)) {
                     call.respond(HttpStatusCode.BadRequest, "Invalid email format")
                     return@post

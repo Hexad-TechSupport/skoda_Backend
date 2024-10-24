@@ -1,5 +1,6 @@
 package skoda_backend.services
 
+import skoda_backend.models.EngineStatusRequest
 import skoda_backend.models.VehicleHistoryRecord
 import skoda_backend.repositories.VehicleRepository
 
@@ -14,6 +15,9 @@ class VehicleService(private val vehicleRepo: VehicleRepository) {
         return vehicleRepo.unlockVehicle(vehicleId, userId)
     }
 
+    fun updateEngineStatus(engineStatusRequest: EngineStatusRequest): Boolean {
+        return vehicleRepo.updateEngineStatus(engineStatusRequest)
+    }
     fun getVehicleHistory(vehicleId: String): List<VehicleHistoryRecord> {
         return vehicleRepo.getVehicleHistory(vehicleId)
     }
