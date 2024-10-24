@@ -3,11 +3,7 @@ version: 0.2
 env:
    parameter-store:
     secrets-manager: 
-      DB_HOST: skoda_dbsecret:DB_HOST
-      DB_PORT: skoda_dbsecret:DB_PORT
-      DB_NAME: skoda_dbsecret:DB_NAME
-      DB_USER: skoda_dbsecret:DB_USER
-      DB_PASSWORD: skoda_dbsecret:DB_PASSWORD
+      skoda_dbsecret: aws/secretsmanager
 
 phases:
   install:
