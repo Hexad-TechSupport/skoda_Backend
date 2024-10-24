@@ -22,7 +22,8 @@ data class Vehicle(
         val lastServiceDate: Long?,
         val createdAt: Long,
         val updatedAt: Long?,
-        val lockStatus: String?
+        val lockStatus: String?,
+        val isEngineOn: Boolean?
 )
 
 @Serializable
@@ -32,4 +33,11 @@ data class VehicleHistoryRecord(
         var action : String,
         var timestamp: Long,
         var createdAt: Long,
+)
+
+@Serializable
+data class EngineStatusRequest(
+        val userId: String,
+        val engineStatus: Boolean,
+        val vehicleId: String
 )
