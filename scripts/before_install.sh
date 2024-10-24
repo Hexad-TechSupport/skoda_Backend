@@ -13,7 +13,7 @@ sudo apt update -y && sudo apt upgrade -y
 # Install Java 20 (Amazon Corretto)
 echo "Installing Java 20 (Amazon Corretto)..."
 sudo apt install -y java-common ca-certificates-java
-wget -O- https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/amazon-corretto-archive-keyring.gpg
+wget -O- https://apt.corretto.aws/corretto.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/amazon-corretto-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/amazon-corretto-archive-keyring.gpg] https://apt.corretto.aws stable main" | sudo tee /etc/apt/sources.list.d/amazon-corretto.list
 sudo apt update
 sudo apt install -y java-20-amazon-corretto-jdk
