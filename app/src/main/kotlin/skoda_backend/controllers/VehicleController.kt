@@ -6,6 +6,8 @@ import io.ktor.server.response.*
 import io.ktor.http.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.request.*
+import skoda_backend.models.EngineStatusRequest
 import skoda_backend.repositories.VehicleRepository
 import skoda_backend.services.VehicleService
 import java.util.*
@@ -63,7 +65,21 @@ fun Application.vehicleRoutes() {
                         call.respond(HttpStatusCode.InternalServerError, "Unable to unlock vehicle")
                     }
                 }
+                post("/updateEngineStatus") {
 
+                    val engineStatusReq = call.receive<EngineStatusRequest>()
+                    val principal = call.principal<JWTPrincipal>()!!
+                    val userId = principal?.getClaim("userId", String::class)
+                    println(userId)
+                    if (userId != engineStatusReq.userId){
+                        call.respond(HttpStatusCode.Unauthorized, "User dont have permissions")
+                    }
+                    if (vehicleService.updateEngineStatus(engineStatusReq)) {
+                        call.respond(HttpStatusCode.OK, "Vehicle's engine status updated successfully")
+                    } else {
+                        call.respond(HttpStatusCode.InternalServerError, "Unable to update engine status")
+                    }
+                }
                 get("/{vehicleId}/history") {
                     val vehicleId = call.parameters["vehicleId"]!!
                     val history = vehicleService.getVehicleHistory(vehicleId)
