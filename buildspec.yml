@@ -24,7 +24,7 @@ phases:
     commands:
       - echo Build started on `date`
       - ./gradlew assemble --no-daemon
-      - echo "Using secret env var: $MY_SECRET_ENV_VAR"
+      - echo Using secret env var: $MY_SECRET_ENV_VAR
   post_build:
     commands:
       - echo Build completed on `date`
