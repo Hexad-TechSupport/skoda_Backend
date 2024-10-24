@@ -20,7 +20,7 @@ sudo apt install -y java-20-amazon-corretto-jdk
 
 # Install PostgreSQL client
 echo "Installing PostgreSQL client..."
-sudo apt install -y postgresql-client-15
+sudo apt install -y postgresql-client-14
 
 # Create application directory
 echo "Creating application directory..."
