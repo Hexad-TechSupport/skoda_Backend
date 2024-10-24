@@ -25,10 +25,11 @@ phases:
       - aws s3 cp app/build/libs/app.jar s3://skodaappdevl/Skoda_BuildArtifacts/ --region eu-central-1
 
 artifacts:
-  files:
-    - 'app/build/libs/app.jar'
-  base-directory: '.' 
   discard-paths: no
+  files:
+    - app/build/libs/app.jar
+    - scripts/*
+    - appspec.yml
 
 cache:
   paths:
