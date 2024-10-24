@@ -93,4 +93,3 @@ echo "Setting correct permissions for application directory..."
 sudo chown -R ubuntu:ubuntu /opt/skoda-backend
 
 echo "Before install script completed successfully"
-
