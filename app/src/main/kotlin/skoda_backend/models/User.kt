@@ -1,16 +1,13 @@
 package skoda_backend.models
 
-import kotlinx.serialization.Contextual
-import java.time.LocalDateTime
-import java.util.*
+
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 
 @Serializable
 data class User(
         val userId: String?=null,
         val email: String,
-        val password: String,
+        val password: String?= null,
         val firstName: String? = null,
         val lastName: String? = null,
         val phoneNumber: String? = null,

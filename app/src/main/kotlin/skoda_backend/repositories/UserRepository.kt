@@ -5,11 +5,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import skoda_backend.models.User
 import skoda_backend.models.Users
-import java.time.Instant
-import java.time.LocalDateTime
 import org.mindrot.jbcrypt.BCrypt
-import java.time.ZoneId
-import java.util.*
 
 class UserRepository {
 
@@ -97,7 +93,9 @@ class UserRepository {
         return transaction {
             val updatedRowsCount = Users.update({ Users.id eq updatedUser.userId }) {
                 it[email] = updatedUser.email
-                it[passwordHash] = updatedUser.password
+                if (!updatedUser.password.isNullOrEmpty()) {
+                    it[passwordHash] = BCrypt.hashpw(updatedUser.password, BCrypt.gensalt())
+                }
                 it[firstName] = updatedUser.firstName
                 it[lastName] = updatedUser.lastName
                 it[phoneNumber] = updatedUser.phoneNumber
