@@ -9,3 +9,5 @@ echo "Running SQL script..."
 # Run the SQL script using psql
 PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/init.sql
 echo "SQL script executed."
+
+
