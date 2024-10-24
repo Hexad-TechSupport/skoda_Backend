@@ -12,7 +12,7 @@ sudo yum update -y
 
 # Install Java 20 (Corretto)
 echo "Installing Java 20 (Amazon Corretto)..."
-sudo yum install -y java-20-amazon-corretto-devel
+sudo yum install java-11-amazon-corretto-devel
 
 # Install PostgreSQL client
 echo "Installing PostgreSQL client..."
