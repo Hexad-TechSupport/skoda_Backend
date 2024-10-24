@@ -8,20 +8,24 @@ echo "Starting the before install script..."
 
 # Update system packages
 echo "Updating system packages..."
-sudo yum update -y
+sudo apt update -y && sudo apt upgrade -y
 
-# Install Java 20 (Corretto)
+# Install Java 20 (Amazon Corretto)
 echo "Installing Java 20 (Amazon Corretto)..."
-sudo yum install java-11-amazon-corretto-devel
+sudo apt install -y java-common ca-certificates-java
+wget -O- https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/amazon-corretto-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/amazon-corretto-archive-keyring.gpg] https://apt.corretto.aws stable main" | sudo tee /etc/apt/sources.list.d/amazon-corretto.list
+sudo apt update
+sudo apt install -y java-20-amazon-corretto-jdk
 
 # Install PostgreSQL client
 echo "Installing PostgreSQL client..."
-sudo yum install -y postgresql15
+sudo apt install -y postgresql-client-15
 
 # Create application directory
 echo "Creating application directory..."
 sudo mkdir -p /opt/skoda-backend
-sudo chown -R ec2-user:ec2-user /opt/skoda-backend
+sudo chown -R ubuntu:ubuntu /opt/skoda-backend
 
 # Set environment variables
 echo "Setting environment variables..."
@@ -46,7 +50,7 @@ source /etc/profile.d/skoda-env.sh
 # Create log directory
 echo "Creating log directory..."
 sudo mkdir -p /var/log/skoda-backend
-sudo chown -R ec2-user:ec2-user /var/log/skoda-backend
+sudo chown -R ubuntu:ubuntu /var/log/skoda-backend
 
 # Create service file for systemd
 echo "Creating systemd service file for Skoda backend..."
@@ -57,7 +61,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=ec2-user
+User=ubuntu
 Environment="JAVA_HOME=/usr/lib/jvm/java-20-amazon-corretto"
 Environment="PATH=/usr/lib/jvm/java-20-amazon-corretto/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
 EnvironmentFile=/etc/profile.d/skoda-env.sh
@@ -75,7 +79,7 @@ sudo systemctl daemon-reload
 
 # Install additional dependencies if needed
 echo "Installing additional dependencies (curl, wget)..."
-sudo yum install -y curl wget
+sudo apt install -y curl wget
 
 # Create health check endpoint directory
 echo "Setting up health check endpoint..."
@@ -86,6 +90,7 @@ EOF
 
 # Set correct permissions for application directory
 echo "Setting correct permissions for application directory..."
-sudo chown -R ec2-user:ec2-user /opt/skoda-backend
+sudo chown -R ubuntu:ubuntu /opt/skoda-backend
 
 echo "Before install script completed successfully"
+
