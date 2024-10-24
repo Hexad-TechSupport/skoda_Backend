@@ -3,6 +3,7 @@ package skoda_backend.repositories
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import skoda_backend.models.EngineStatusRequest
 import skoda_backend.models.Vehicle
 import skoda_backend.models.VehicleHistoryRecord
 import skoda_backend.models.Vehicles
@@ -30,6 +31,7 @@ class VehicleRepository {
                                 lastServiceDate = it[Vehicles.lastServiceDate],
                                 createdAt = it[Vehicles.createdAt],
                                 lockStatus = it[Vehicles.lockStatus],
+                                isEngineOn = it[Vehicles.isEngineOn],
                                 updatedAt = it[Vehicles.updatedAt]
                         )
                     }.singleOrNull()
@@ -71,6 +73,14 @@ class VehicleRepository {
         }
     }
 
+    fun updateEngineStatus(engineStatusRequest: EngineStatusRequest): Boolean {
+        return transaction {
+            Vehicles.update({ Vehicles.id eq engineStatusRequest.vehicleId }) {
+                it[Vehicles.isEngineOn] = engineStatusRequest.engineStatus
+            }
+            true
+        }
+    }
     fun getVehicleHistory(vehicleId: String): List<VehicleHistoryRecord> {
         return transaction {
             VehicleHistory.selectAll().where { VehicleHistory.vehicleId eq vehicleId }
