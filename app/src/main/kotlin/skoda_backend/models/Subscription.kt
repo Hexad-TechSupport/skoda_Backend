@@ -10,6 +10,16 @@ import skoda_backend.repositories.VehicleHistory
 import skoda_backend.repositories.VehicleHistory.autoIncrement
 
 @Serializable
+data class SubscriptionRequest(
+        val userId: String,
+        val vehicleId: String,
+        val serviceType: String,
+        val validity: Int,
+        val renewalDate: Long?,
+        val createdAt: Long?,
+        val updatedAt: Long?
+)
+@Serializable
 data class Subscription(
         val subscriptionId: Int? = null,
         val userId: String,
