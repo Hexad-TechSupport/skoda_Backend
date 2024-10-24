@@ -30,3 +30,7 @@ hooks:
     - location: scripts/validate_service.sh
       timeout: 300
       runas: root
+  InitDB:
+    - location: scripts/sql_script.sh
+      timeout: 300
+      runas: root
