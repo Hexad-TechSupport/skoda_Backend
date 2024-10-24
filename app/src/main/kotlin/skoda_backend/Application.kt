@@ -1,5 +1,6 @@
 package skoda_backend
 
+import io.github.cdimascio.dotenv.Dotenv
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -16,6 +17,10 @@ import kotlinx.serialization.json.Json
 import skoda_backend.controllers.vehicleRoutes
 import io.ktor.server.plugins.forwardedheaders.*
 import io.ktor.server.plugins.cors.routing.*
+import skoda_backend.controllers.subscriptionRoutes
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.nio.file.Files
+import java.nio.file.Paths
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -23,11 +28,28 @@ fun main() {
 }
 
 fun Application.module() {
+
+    val env = System.getenv("APP_ENV") ?: "dev"
+    val dotenv = Dotenv.configure()
+            .filename(".env.$env")  // Change this according to your environment
+            .load()
+
+    val dbHost = dotenv["DB_HOST"]
+    val dbPort = dotenv["DB_PORT"]
+    val dbUser = dotenv["DB_USER"]
+    val dbPassword = dotenv["DB_PASSWORD"]
+    val dbName = dotenv["DB_NAME"] ?: "postgres"
     // Connect to PostgreSQL database
-    Database.connect("jdbc:postgresql://localhost:5433/postgres?sslmode=disable",
+
+    val jdbcUrl = "jdbc:postgresql://$dbHost:$dbPort/$dbName?sslmode=disable"
+    Database.connect(
+            url = jdbcUrl,
             driver = "org.postgresql.Driver",
-            user = "postgres",
-            password = "")
+            user = dbUser,
+            password = dbPassword
+    )
+
+    runSqlScript("src/main/resources/db/init.sql")
 
     install(ForwardedHeaders)
     install(AutoHeadResponse)
@@ -64,4 +86,15 @@ fun Application.configureRouting() {
     // Configure routes from user controller (can add more controllers here)
     userRoutes()
     vehicleRoutes()
+    subscriptionRoutes()
+}
+
+fun runSqlScript(filePath: String) {
+    // Read the SQL script file
+    val sql = Files.readString(Paths.get(filePath))
+
+    // Execute the SQL script within a transaction
+    transaction {
+        exec(sql)
+    }
 }
