@@ -1,5 +1,13 @@
 version: 0.2
 
+env:
+   parameter-store:
+    MY_SECRET_ENV_VAR: "skoda_dbsecret/DB_HOST"
+    MY_SECRET_ENV_VAR: "skoda_dbsecret/DB_PORT"
+    MY_SECRET_ENV_VAR: "skoda_dbsecret/DB_NAME"
+    MY_SECRET_ENV_VAR: "skoda_dbsecret/DB_USER"
+    MY_SECRET_ENV_VAR: "skoda_dbsecret/DB_PASSWORD"
+
 phases:
   install:
     runtime-versions:
@@ -16,6 +24,7 @@ phases:
     commands:
       - echo Build started on `date`
       - ./gradlew assemble --no-daemon
+      - echo "Using secret env var: $MY_SECRET_ENV_VAR"
   post_build:
     commands:
       - echo Build completed on `date`
