@@ -22,6 +22,12 @@ fun Application.vehicleRoutes() {
                     val userId = call.queryParameters["userId"]
                     val vehicleId = call.queryParameters["vehicleId"]
 
+                    val principal = call.principal<JWTPrincipal>()
+                    val uId = principal?.getClaim("userId", String::class)
+                    if (uId != userId){
+                        call.respond(HttpStatusCode.Unauthorized, "User dont have permissions")
+                    }
+
                     if (userId != null && vehicleId != null) {
                         val vehicle = vehicleRepository.getVehicleByUserAndVehicleId(userId, vehicleId)
                         if (vehicle != null) {
@@ -62,7 +68,7 @@ fun Application.vehicleRoutes() {
                     val vehicleId = call.parameters["vehicleId"]!!
                     val history = vehicleService.getVehicleHistory(vehicleId)
                     call.respond(history)
-                }
+                    }
             }
         }
         }

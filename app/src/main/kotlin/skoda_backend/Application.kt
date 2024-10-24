@@ -16,6 +16,7 @@ import kotlinx.serialization.json.Json
 import skoda_backend.controllers.vehicleRoutes
 import io.ktor.server.plugins.forwardedheaders.*
 import io.ktor.server.plugins.cors.routing.*
+import skoda_backend.controllers.subscriptionRoutes
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -64,4 +65,5 @@ fun Application.configureRouting() {
     // Configure routes from user controller (can add more controllers here)
     userRoutes()
     vehicleRoutes()
+    subscriptionRoutes()
 }
