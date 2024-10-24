@@ -1,7 +1,6 @@
 version: 0.2
 
 env:
-   parameter-store:
     secrets-manager: 
       skoda_dbsecret:aws/secretsmanager
 
