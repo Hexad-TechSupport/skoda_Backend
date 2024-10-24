@@ -9,30 +9,30 @@ files:
 permissions:
   - object: /opt/skoda-backend
     pattern: "**"
-    owner: ec2-user
-    group: ec2-user
+    owner: ubuntu
+    group: ubuntu
     mode: 755
 
 hooks:
   ApplicationStop:
     - location: scripts/stop_application.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
   BeforeInstall:
     - location: scripts/before_install.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
   ApplicationStart:
     - location: scripts/start_application.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
   ValidateService:
     - location: scripts/validate_service.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
   InitDB:
     - location: scripts/sql_script.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
 
 
