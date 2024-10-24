@@ -8,6 +8,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import skoda_backend.models.Subscription
+import skoda_backend.models.SubscriptionRequest
 import skoda_backend.repositories.SubscriptionRepository
 import skoda_backend.services.SubscriptionService
 
@@ -20,8 +21,8 @@ fun Application.subscriptionRoutes() {
             authenticate("auth-jwt") {
                 // Create Subscription
                 post {
-                    val subscription = call.receive<Subscription>()
-                    val createdSubscription = subscriptionService.createSubscription(subscription)
+                    val subReq = call.receive<SubscriptionRequest>()
+                    val createdSubscription = subscriptionService.createSubscription(subReq)
                     if (createdSubscription != null) {
                         call.respond(HttpStatusCode.Created, createdSubscription)
                     } else {
@@ -66,8 +67,8 @@ fun Application.subscriptionRoutes() {
                 put("/{subscriptionId}") {
                     val subscriptionId = call.parameters["subscriptionId"]?.toIntOrNull()
                     if (subscriptionId != null) {
-                        val updatedSubscription = call.receive<Subscription>()
-                        val isUpdated = subscriptionService.updateSubscription(subscriptionId, updatedSubscription)
+                        val subReq = call.receive<SubscriptionRequest>()
+                        val isUpdated = subscriptionService.updateSubscription(subscriptionId, subReq)
                         if (isUpdated) {
                             call.respond(HttpStatusCode.OK, "Subscription updated successfully")
                         } else {
