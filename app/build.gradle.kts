@@ -77,3 +77,18 @@ application {
     // Define the main class for the application.
     mainClass.set("skoda_backend.ApplicationKt")
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "skoda_backend.ApplicationKt"
+    }
+    from(sourceSets.main.get().output)
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    dependsOn(configurations.runtimeClasspath)
+
+    // Include dependencies in the JAR
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
