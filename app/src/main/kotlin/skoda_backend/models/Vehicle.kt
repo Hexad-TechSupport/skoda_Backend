@@ -41,3 +41,13 @@ data class EngineStatusRequest(
         val engineStatus: Boolean,
         val vehicleId: String
 )
+
+@Serializable
+data class CarTopSpeed(
+        val id: Int,
+        val make: String,
+        val model: String,
+        val country: String,
+        val topSpeedKmh: Int,
+        val topSpeedMph: Int
+)

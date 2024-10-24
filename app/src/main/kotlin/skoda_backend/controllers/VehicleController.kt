@@ -7,6 +7,12 @@ import io.ktor.http.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
+import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
+import skoda_backend.models.CarTopSpeed
+import skoda_backend.models.CarTopSpeeds
 import skoda_backend.models.EngineStatusRequest
 import skoda_backend.repositories.VehicleRepository
 import skoda_backend.services.VehicleService
@@ -18,7 +24,7 @@ fun Application.vehicleRoutes() {
 
     routing {
         route("/vehicles") {
-            authenticate("auth-jwt"){
+            authenticate("auth-jwt") {
                 get("/") {
 
                     val userId = call.queryParameters["userId"]
@@ -26,7 +32,7 @@ fun Application.vehicleRoutes() {
 
                     val principal = call.principal<JWTPrincipal>()
                     val uId = principal?.getClaim("userId", String::class)
-                    if (uId != userId){
+                    if (uId != userId) {
                         call.respond(HttpStatusCode.Unauthorized, "User dont have permissions")
                     }
 
@@ -71,7 +77,7 @@ fun Application.vehicleRoutes() {
                     val principal = call.principal<JWTPrincipal>()!!
                     val userId = principal?.getClaim("userId", String::class)
                     println(userId)
-                    if (userId != engineStatusReq.userId){
+                    if (userId != engineStatusReq.userId) {
                         call.respond(HttpStatusCode.Unauthorized, "User dont have permissions")
                     }
                     if (vehicleService.updateEngineStatus(engineStatusReq)) {
@@ -84,9 +90,34 @@ fun Application.vehicleRoutes() {
                     val vehicleId = call.parameters["vehicleId"]!!
                     val history = vehicleService.getVehicleHistory(vehicleId)
                     call.respond(history)
+                }
+            }
+
+            get("/top-speeds") {
+                val make = call.request.queryParameters["make"]
+                val model = call.request.queryParameters["model"]
+                val country = call.request.queryParameters["country"]
+
+                val filteredCarTopSpeeds = transaction {
+                    CarTopSpeeds.selectAll().where {
+                        ((make?.let { CarTopSpeeds.make eq it }) ?: Op.TRUE) and
+                        ((model?.let { CarTopSpeeds.model eq it }) ?: Op.TRUE) and
+                                ((country?.let { CarTopSpeeds.country eq it }) ?: Op.TRUE)
+                    }.map {
+                        CarTopSpeed(
+                                id = it[CarTopSpeeds.id],
+                                make = it[CarTopSpeeds.make],
+                                model = it[CarTopSpeeds.model],
+                                country = it[CarTopSpeeds.country],
+                                topSpeedKmh = it[CarTopSpeeds.topSpeedKmh],
+                                topSpeedMph = it[CarTopSpeeds.topSpeedMph]
+                        )
                     }
+                }
+
+                call.respond(filteredCarTopSpeeds)
             }
         }
-        }
     }
+}
 

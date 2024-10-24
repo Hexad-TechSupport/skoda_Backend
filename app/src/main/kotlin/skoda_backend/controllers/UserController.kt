@@ -13,7 +13,6 @@ import skoda_backend.services.UserService
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import skoda_backend.models.LoginRequest
-import skoda_backend.models.toUserResponse
 import org.mindrot.jbcrypt.BCrypt
 import skoda_backend.models.TokenResponse
 import skoda_backend.utils.generateToken
@@ -34,7 +33,7 @@ fun Application.userRoutes() {
                     call.respond(HttpStatusCode.BadRequest, "Invalid email format")
                     return@post
                 }
-                if (user.password.length < 8) {
+                if (user.password.isNullOrEmpty() || user.password.length < 8)  {
                     call.respond(HttpStatusCode.BadRequest, "Password must be at least 8 characters long")
                     return@post
                 }
@@ -79,9 +78,14 @@ fun Application.userRoutes() {
                     if (userId != id){
                         call.respond(HttpStatusCode.Unauthorized, "User dont have permissions")
                     }
+
+                    if (!updatedUser.password.isNullOrEmpty() && updatedUser.password.length < 8) {
+                        call.respond(HttpStatusCode.BadRequest, "Password should be at least 8 characters long")
+                    }
+
                     val user = id?.let { userService.updateUser(updatedUser.copy(userId = it)) }
                     if (user != null) {
-                        call.respond(HttpStatusCode.Created, Json.encodeToString(user.toUserResponse()))
+                        call.respond(HttpStatusCode.Created, user)
                     } else {
                         call.respond(HttpStatusCode.NotFound, "User not found")
                     }

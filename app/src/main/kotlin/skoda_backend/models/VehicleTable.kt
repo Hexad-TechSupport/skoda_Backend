@@ -2,6 +2,7 @@ package skoda_backend.models
 
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import skoda_backend.models.User
 import skoda_backend.models.Users
@@ -25,4 +26,13 @@ object Vehicles : IdTable<String>("Vehicles") {
     val updatedAt = long("updatedAt").nullable()
     val lockStatus = varchar("lockstatus", 50).nullable()
     var isEngineOn = bool("isEngineOn").nullable()
+}
+
+object CarTopSpeeds : Table("car_top_speeds") {
+    val id = integer("id").autoIncrement()
+    val make = varchar("make", 255)
+    val model = varchar("model", 255)
+    val country = varchar("country", 255)
+    val topSpeedKmh = integer("top_speed_kmh")
+    val topSpeedMph = integer("top_speed_mph")
 }
