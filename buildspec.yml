@@ -2,7 +2,7 @@ version: 0.2
 
 env:
     secrets-manager: 
-      skoda_dbsecret:aws/secretsmanager
+     skoda_dbsecret:aws/secretsmanager
 
 phases:
   install:
