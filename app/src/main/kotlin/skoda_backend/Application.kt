@@ -1,6 +1,5 @@
 package skoda_backend
 
-import io.github.cdimascio.dotenv.Dotenv
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -9,7 +8,6 @@ import io.ktor.server.netty.*
 import skoda_backend.controllers.userRoutes
 import org.jetbrains.exposed.sql.Database
 import io.ktor.server.plugins.autohead.*
-import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import skoda_backend.utils.verifier
 import io.ktor.server.plugins.contentnegotiation.*
@@ -29,16 +27,11 @@ fun main() {
 
 fun Application.module() {
 
-    val env = System.getenv("APP_ENV") ?: "dev"
-    val dotenv = Dotenv.configure()
-            .filename(".env.$env")  // Change this according to your environment
-            .load()
-
-    val dbHost = dotenv["DB_HOST"]
-    val dbPort = dotenv["DB_PORT"]
-    val dbUser = dotenv["DB_USER"]
-    val dbPassword = dotenv["DB_PASSWORD"]
-    val dbName = dotenv["DB_NAME"] ?: "postgres"
+    val dbHost = System.getenv("DB_HOST") ?: "localhost"
+    val dbPort = System.getenv("DB_PORT") ?: "5432"
+    val dbUser = System.getenv("DB_USER") ?: "postgres"
+    val dbPassword = System.getenv("DB_PASSWORD") ?: ""
+    val dbName = System.getenv("DB_NAME") ?: "postgres"
     // Connect to PostgreSQL database
 
     val jdbcUrl = "jdbc:postgresql://$dbHost:$dbPort/$dbName?sslmode=disable"
@@ -48,8 +41,6 @@ fun Application.module() {
             user = dbUser,
             password = dbPassword
     )
-
-    runSqlScript("src/main/resources/db/init.sql")
 
     install(ForwardedHeaders)
     install(AutoHeadResponse)
@@ -89,12 +80,3 @@ fun Application.configureRouting() {
     subscriptionRoutes()
 }
 
-fun runSqlScript(filePath: String) {
-    // Read the SQL script file
-    val sql = Files.readString(Paths.get(filePath))
-
-    // Execute the SQL script within a transaction
-    transaction {
-        exec(sql)
-    }
-}
