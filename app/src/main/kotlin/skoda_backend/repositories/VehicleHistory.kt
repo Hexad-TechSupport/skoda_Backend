@@ -1,12 +1,7 @@
 package skoda_backend.repositories
 
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
 import skoda_backend.models.Users
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import skoda_backend.models.Vehicles
 
 object VehicleHistory : Table("VehicleHistory") {

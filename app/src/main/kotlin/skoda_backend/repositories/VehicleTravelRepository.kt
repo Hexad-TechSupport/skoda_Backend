@@ -28,7 +28,6 @@ class VehicleTravelRepository {
         }
     }
 
-    // Get all travel history entries for a given vehicle and user
     fun getAllTrips(vehicleId: String, userId: String): List<TravelHistoryResponse> {
         return transaction {
             TravelHistory

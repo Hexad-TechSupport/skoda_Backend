@@ -1,14 +1,11 @@
 package skoda_backend.repositories
 
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import skoda_backend.models.EngineStatusRequest
 import skoda_backend.models.Vehicle
 import skoda_backend.models.VehicleHistoryRecord
 import skoda_backend.models.Vehicles
-import skoda_backend.repositories.VehicleHistory
-import java.util.*
 
 class VehicleRepository {
     fun getVehicleByUserAndVehicleId(userId: String, vehicleId: String): Vehicle? {

@@ -2,7 +2,6 @@ package skoda_backend.services
 
 import skoda_backend.models.User
 import skoda_backend.repositories.UserRepository
-import java.util.UUID
 
 class UserService(private val userRepository: UserRepository) {
     fun createUser(user: User): User = userRepository.createUser(user)

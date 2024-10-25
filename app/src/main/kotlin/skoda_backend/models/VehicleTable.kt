@@ -1,12 +1,7 @@
 package skoda_backend.models
 
 import org.jetbrains.exposed.dao.id.IdTable
-import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.javatime.datetime
-import skoda_backend.models.User
-import skoda_backend.models.Users
-import skoda_backend.models.Users.entityId
 
 object Vehicles : IdTable<String>("Vehicles") {
     override val id = varchar("vehicleId", 255).entityId()

@@ -16,7 +16,6 @@ import skoda_backend.models.CarTopSpeeds
 import skoda_backend.models.EngineStatusRequest
 import skoda_backend.repositories.VehicleRepository
 import skoda_backend.services.VehicleService
-import java.util.*
 
 fun Application.vehicleRoutes() {
     val vehicleRepository = VehicleRepository()

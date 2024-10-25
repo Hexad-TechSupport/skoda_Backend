@@ -31,7 +31,6 @@ fun Application.module() {
     val dbUser = System.getenv("DB_USER") ?: "postgres"
     val dbPassword = System.getenv("DB_PASSWORD") ?: ""
     val dbName = System.getenv("DB_NAME") ?: "postgres"
-    // Connect to PostgreSQL database
 
     val jdbcUrl = "jdbc:postgresql://$dbHost:$dbPort/$dbName?sslmode=disable"
     Database.connect(
@@ -68,7 +67,6 @@ fun Application.module() {
             ignoreUnknownKeys = true
         })
     }
-    // Call the routing configuration from controllers
     configureRouting()
 }
 
