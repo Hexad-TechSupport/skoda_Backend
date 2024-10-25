@@ -6,6 +6,29 @@ set -ex
 # Logging start of the script
 echo "Starting the before install script..."
 
+# Fetch secrets from AWS Secrets Manager
+echo "Fetching secrets from AWS Secrets Manager"
+
+# Set the region where your secrets are stored
+AWS_REGION="eu-central-1"
+
+# Fetch the secret from AWS Secrets Manager
+SECRET=$(aws secretsmanager get-secret-value \
+    --secret-id skoda_dbsecret \
+    --region $AWS_REGION \
+    --query SecretString \
+    --output text)
+
+# Parse the secret and export as environment variables
+export DB_HOST=$(echo $SECRET | jq -r '.DB_HOST')
+export DB_USER=$(echo $SECRET | jq -r '.DB_USER')
+export DB_PASSWORD=$(echo $SECRET | jq -r '.DB_PASSWORD')
+export DB_PORT=$(echo $SECRET | jq -r '.DB_PORT')
+export DB_NAME=$(echo $SECRET | jq -r '.DB_NAME')
+
+# Clear the secret from memory
+unset SECRET
+
 # Update system packages
 echo "Updating system packages..."
 sudo apt update -y && sudo apt upgrade -y
@@ -76,10 +99,6 @@ EOF
 # Reload systemd to apply new service file
 echo "Reloading systemd..."
 sudo systemctl daemon-reload
-
-# Install additional dependencies if needed
-echo "Installing additional dependencies (curl, wget)..."
-sudo apt install -y curl wget
 
 # Create health check endpoint directory
 echo "Setting up health check endpoint..."
