@@ -7,7 +7,6 @@ import io.ktor.http.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
-import skoda_backend.models.Subscription
 import skoda_backend.models.SubscriptionRequest
 import skoda_backend.repositories.SubscriptionRepository
 import skoda_backend.services.SubscriptionService

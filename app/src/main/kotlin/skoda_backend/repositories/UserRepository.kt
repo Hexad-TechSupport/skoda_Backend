@@ -70,7 +70,6 @@ class UserRepository {
             }.singleOrNull()
         }
     }
-    // Get all users
     fun getAllUsers(): List<User> {
         return transaction {
             Users.selectAll().map {
@@ -89,7 +88,6 @@ class UserRepository {
         }
     }
 
-    // Update an existing user
     fun updateUser(updatedUser: User): User? {
         return transaction {
             val updatedRowsCount = Users.update({ Users.id eq updatedUser.userId }) {
@@ -107,7 +105,6 @@ class UserRepository {
         }
     }
 
-    // Delete a user by ID
     fun deleteUser(id: String): Boolean {
         return transaction {
             // Check if any row was deleted and return true if so

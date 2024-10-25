@@ -1,9 +1,6 @@
 package skoda_backend.models
 
 import kotlinx.serialization.Serializable
-import skoda_backend.repositories.VehicleHistory
-import java.util.*
-import java.time.LocalDateTime
 
 @Serializable
 data class Vehicle(

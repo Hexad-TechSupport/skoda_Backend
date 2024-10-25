@@ -7,7 +7,7 @@ private const val secret = "skoda-secret-key" // read from secrets
 private const val issuer = "skoda-issuer"
 private const val audience = "skoda-audience"
 private const val realm = "skoda-realm"
-// Utility function to validate email format
+
 fun isValidEmail(email: String): Boolean {
     return Regex("^[A-Za-z0-9+_.-]+@(.+)$").matches(email)
 }

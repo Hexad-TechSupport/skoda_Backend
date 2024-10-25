@@ -23,9 +23,8 @@ class SubscriptionRepository {
                 it[updatedAt] = System.currentTimeMillis()
             }
 
-            // Return the created subscription with the generated ID
             Subscription(
-                    subscriptionId = insertedId.value, // Get the ID from insertedId
+                    subscriptionId = insertedId.value,
                     userId = subscription.userId,
                     vehicleId = subscription.vehicleId,
                     serviceType = subscription.serviceType,
@@ -99,7 +98,6 @@ class SubscriptionRepository {
     fun deleteSubscription(subscriptionId: Int): Boolean {
         return transaction {
             val rowDeleted =Subscriptions.deleteWhere { Subscriptions.subscriptionId eq subscriptionId }
-
             rowDeleted > 0
         }
     }

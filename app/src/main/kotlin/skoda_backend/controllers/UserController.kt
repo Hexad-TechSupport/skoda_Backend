@@ -38,7 +38,6 @@ fun Application.userRoutes() {
                     return@post
                 }
                 val createdUser = userService.createUser(user)
-                //val jsonResponse = Json.encodeToString(createdUser.toUserResponse())
                 call.respond(HttpStatusCode.Created, createdUser)
             }
 
@@ -104,7 +103,6 @@ fun Application.userRoutes() {
                     }
                 }
 
-                // Delete User
                 delete("/{id}") {
                     val id = call.parameters["id"]
                     val principal = call.principal<JWTPrincipal>()
@@ -120,7 +118,7 @@ fun Application.userRoutes() {
                     }
                 }
             }
-            // Sign in (login)
+
             post("/login") {
                 val loginRequest = call.receive<LoginRequest>()
                 val user = userService.getUserByEmail(loginRequest.email)
@@ -129,7 +127,6 @@ fun Application.userRoutes() {
                     return@post
                 }
 
-                // Check if the password matches the hashed password
                 if (!BCrypt.checkpw(loginRequest.password, user.password)) {
                     call.respond(HttpStatusCode.Unauthorized, "Invalid email or password")
                     return@post

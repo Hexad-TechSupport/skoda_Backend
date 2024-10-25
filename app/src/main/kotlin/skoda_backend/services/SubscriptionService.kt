@@ -13,7 +13,6 @@ class SubscriptionService(private val repository: SubscriptionRepository) {
         val currentDate = LocalDate.now()
         val validThrough = currentDate.plusMonths(subscriptionReq.validity.toLong())
 
-        // Convert the date to milliseconds since epoch
         val milliseconds = validThrough.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
         val subscription = Subscription(
@@ -44,7 +43,6 @@ class SubscriptionService(private val repository: SubscriptionRepository) {
         val currentDate = LocalDate.now()
         val validThrough = currentDate.plusMonths(subscriptionReq.validity.toLong())
 
-        // Convert the date to milliseconds since epoch
         val milliseconds = validThrough.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
         val subscription = Subscription(

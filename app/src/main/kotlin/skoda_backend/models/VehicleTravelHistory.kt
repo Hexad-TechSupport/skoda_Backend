@@ -2,7 +2,6 @@ package skoda_backend.models
 
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.id.IdTable
-import org.jetbrains.exposed.dao.id.IntIdTable
 
 object TravelHistory : IdTable<Int>("travelhistory") {
     override val id = integer("historyid").autoIncrement().entityId()

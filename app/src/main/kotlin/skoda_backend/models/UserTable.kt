@@ -1,15 +1,6 @@
 package skoda_backend.models
 
 import org.jetbrains.exposed.dao.id.IdTable
-import org.jetbrains.exposed.sql.Table.Dual.entityId
-import org.jetbrains.exposed.sql.Table.Dual.long
-import org.jetbrains.exposed.sql.Table.Dual.nullable
-import org.jetbrains.exposed.sql.Table.Dual.text
-import org.jetbrains.exposed.sql.Table.Dual.uniqueIndex
-import org.jetbrains.exposed.sql.Table.Dual.uuid
-import org.jetbrains.exposed.sql.Table.Dual.varchar
-import java.util.UUID
-import org.jetbrains.exposed.sql.javatime.timestamp
 
 object Users : IdTable<String>("Users") {
     override val id = varchar("userId", 255).entityId()
