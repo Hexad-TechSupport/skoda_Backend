@@ -12,6 +12,8 @@ object Vehicles : IdTable<String>("Vehicles") {
     val licensePlate = varchar("licensePlate", 20).nullable()
     val vin = varchar("vin", 255).nullable()
     val fuelLevel = float("fuelLevel").nullable()
+    val speed = float("speed").nullable()
+    val topSpeed = float("topspeed").nullable()
     val latitude = float("latitude").nullable()
     val longitude = float("longitude").nullable()
     val mileage = integer("mileage").nullable()

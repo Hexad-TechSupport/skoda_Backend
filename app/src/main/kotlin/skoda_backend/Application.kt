@@ -76,5 +76,6 @@ fun Application.configureRouting() {
     vehicleRoutes()
     subscriptionRoutes()
     vehicleTravelRoutes()
+    vehicleInfotainmentRoute()
 }
 

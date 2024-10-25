@@ -12,6 +12,8 @@ data class Vehicle(
         val licensePlate: String?,
         val vin: String?,
         val fuelLevel: Float?,
+        val speed: Float?,
+        val topSpeed: Float?,
         val latitude: Float?,
         val longitude: Float?,
         val mileage: Int?,
@@ -37,6 +39,27 @@ data class EngineStatusRequest(
         val userId: String,
         val engineStatus: Boolean,
         val vehicleId: String
+)
+
+@Serializable
+data class MileageRequest(
+        val value: Int
+)
+
+@Serializable
+data class FuelRequest(
+        val value: Float
+)
+
+
+@Serializable
+data class DoorLockRequest(
+        val value: Boolean
+)
+
+@Serializable
+data class EngineStatusReq(
+        val value: Boolean
 )
 
 @Serializable
