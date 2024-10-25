@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import skoda_backend.models.User
 import skoda_backend.models.Users
 import org.mindrot.jbcrypt.BCrypt
+import java.util.UUID
 
 class UserRepository {
 
@@ -20,12 +21,7 @@ class UserRepository {
     fun createUser(user: User): User {
         return transaction {
             val id = Users.insertAndGetId {
-                it[id] = if (!user.firstName.isNullOrBlank() && !user.lastName.isNullOrBlank()) {
-                    user.firstName + user.lastName
-                } else {
-                    user.email
-                }
-
+                it[id] = UUID.randomUUID().toString()
                 it[email] = user.email
                 it[passwordHash] = BCrypt.hashpw(user.password, BCrypt.gensalt())
                 it[firstName] = user.firstName
