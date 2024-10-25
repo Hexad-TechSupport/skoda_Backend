@@ -51,6 +51,19 @@ fun Application.userRoutes() {
                 }
 
                 // Get User by ID
+                get("/user") {
+                    val principal = call.principal<JWTPrincipal>()
+                    val userId = principal?.getClaim("userId", String::class)
+                    val user = userId?.let { userService.getUserById(it) }
+                    if (user != null) {
+                        call.respond(HttpStatusCode.OK, user)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, "User not found")
+                    }
+                }
+
+
+                // Get User by ID
                 get("/{id}") {
                     val principal = call.principal<JWTPrincipal>()
                     val userId = principal?.getClaim("userId", String::class)

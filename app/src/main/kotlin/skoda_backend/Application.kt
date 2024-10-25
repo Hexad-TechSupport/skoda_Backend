@@ -16,8 +16,12 @@ import io.ktor.server.plugins.cors.routing.*
 import skoda_backend.controllers.*
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+
+    val defaultPort = System.getenv("PORT")?.toIntOrNull() ?: 8080
+    println("starting application on $defaultPort")
+    embeddedServer(Netty, port = defaultPort, host = "0.0.0.0", module = Application::module)
             .start(wait = true)
+
 }
 
 fun Application.module() {

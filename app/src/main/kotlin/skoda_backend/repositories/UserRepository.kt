@@ -20,7 +20,12 @@ class UserRepository {
     fun createUser(user: User): User {
         return transaction {
             val id = Users.insertAndGetId {
-                it[id] = user.firstName + user.lastName
+                it[id] = if (!user.firstName.isNullOrBlank() && !user.lastName.isNullOrBlank()) {
+                    user.firstName + user.lastName
+                } else {
+                    user.email
+                }
+
                 it[email] = user.email
                 it[passwordHash] = BCrypt.hashpw(user.password, BCrypt.gensalt())
                 it[firstName] = user.firstName
